@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sélection du Personnage</title>
+    <style>
+        /* --- BASES (Repris de tes fiches) --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background-color: #cfcfcf;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        /* --- CONTENEUR PRINCIPAL --- */
+        .selection-container {
+            max-width: 900px;
+            width: 100%;
+            background: #e6e6e6;
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.35);
+            padding: 4rem 2.2rem;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 3rem;
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 800;
+        }
+
+        .grid-choix {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+            justify-content: center;
+        }
+
+        /* --- STYLE DE BASE DES BOUTONS --- */
+        .bouton-personnage {
+            text-decoration: none;
+            flex: 1 1 300px;
+            max-width: 380px;
+            border-radius: 2.2rem;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.2rem;
+            box-shadow: 0 10px 18px rgba(0,0,0,0.15);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
+
+        /* Effet de survol générique */
+        .bouton-personnage:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.25);
+        }
+
+        .nom-perso {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .role-perso {
+            font-size: 0.95rem;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+
+        /* --- THÈME ABOREL (Druide - Vert Amélioré) --- */
+        .aborel {
+            /* Le dégradé demandé: Bordeaux vers Bleu Nuit */
+            background: linear-gradient(135deg, #b68b40 0%, #2d6a4f 100%);
+            color: white; /* Texte en blanc pour le contraste */
+            
+            /* Bordure double effet "Armure/Magie" */
+            border-left: 6px solid #000000; 
+            border-right: 6px solid #000000;
+            
+            box-shadow: 0 10px 18px rgba(128, 0, 32, 0.2);
+        }
+
+        .aborel .role-perso {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* --- THÈME BISCOTTE (Dégradé Custom demandé) --- */
+        .biscotte {
+            /* Le dégradé demandé: Bordeaux vers Bleu Nuit */
+            background: linear-gradient(135deg, #800020 0%, #1e3a5f 100%);
+            color: white; /* Texte en blanc pour le contraste */
+            
+            /* Bordure double effet "Armure/Magie" */
+            border-left: 6px solid #000000; 
+            border-right: 6px solid #000000;
+            
+            box-shadow: 0 10px 18px rgba(128, 0, 32, 0.2);
+        }
+
+        .biscotte .role-perso {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* Petite lueur au survol pour Biscotte */
+        .biscotte:hover {
+            box-shadow: 0 20px 35px rgba(30, 58, 95, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="selection-container">
+        <h1>Choix du Personnage</h1>
+        
+        <div class="grid-choix">
+            <a href="fiche_jdr_Aborel.html" class="bouton-personnage aborel">
+                <span class="nom-perso">Aborel</span>
+                <span class="role-perso">Druide & Moine</span>
+            </a>
+
+            <a href="fiche_jdr_Biscotte.html" class="bouton-personnage biscotte">
+                <span class="nom-perso">Biscotte</span>
+                <span class="role-perso">Barbare & Paladin</span>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

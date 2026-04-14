@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche D&D – Barbare, Paladin & Sorts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background-color: #d3d3d3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .fiche {
+            max-width: 1400px;
+            width: 100%;
+            background: #e9e9e9;
+            border-radius: 2rem;
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.3);
+            padding: 2rem;
+        }
+
+        .personnages {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .col {
+            flex: 1 1 380px;
+            min-width: 350px;
+            background: #f5f5f5;
+            border-radius: 2rem;
+            padding: 1.8rem 1.5rem;
+            box-shadow: inset 0 1px 4px rgba(255,255,255,0.8), 0 8px 12px rgba(0,0,0,0.1);
+        }
+
+        /* Style barbare – bordeaux */
+        .barbare {
+            border-left: 8px solid #800020;
+            border-bottom: 3px solid #6b001b;
+        }
+        .barbare .titre-role {
+            color: #4d0013;
+            border-bottom: 2px solid #b0305f;
+        }
+        .barbare .competence-nom {
+            background: rgba(128, 0, 32, 0.07);
+            border-left: 5px solid #800020;
+        }
+        .barbare .competence-nom:hover {
+            background: rgba(128, 0, 32, 0.15);
+        }
+
+        /* Style paladin – bleu profond */
+        .paladin {
+            border-left: 8px solid #1e3a5f;
+            border-bottom: 3px solid #0f2b47;
+        }
+        .paladin .titre-role {
+            color: #0a2942;
+            border-bottom: 2px solid #3a6291;
+        }
+        .paladin .competence-nom {
+            background: rgba(30, 58, 95, 0.07);
+            border-left: 5px solid #1e3a5f;
+        }
+        .paladin .competence-nom:hover {
+            background: rgba(30, 58, 95, 0.15);
+        }
+
+        /* Section sorts – bleu clair */
+        .sorts-section {
+            background: #e1eff8;  /* bleu très clair */
+            border-radius: 2rem;
+            padding: 1.8rem 2rem;
+            margin-top: 1.5rem;
+            border: 2px solid #b3d4f0;
+            box-shadow: 0 6px 12px rgba(0,40,70,0.2);
+        }
+        .sorts-titre {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #024d72;
+            border-bottom: 3px solid #5ea6d6;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .sous-titre {
+            font-size: 1rem;
+            font-weight: 400;
+            font-style: italic;
+            background: rgba(255,255,255,0.7);
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            color: #024d72;
+        }
+
+        /* tableau cases à cocher */
+        .tableau-emplacements {
+            background: rgba(255,255,255,0.5);
+            border-radius: 1.8rem;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 2.5rem;
+            box-shadow: inset 0 1px 6px #b0cde0;
+        }
+        .tableau-emplacements h3 {
+            color: #035a88;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
+        }
+        .niveaux-table {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            max-width: 400px;
+        }
+        .ligne-niveau {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 60px;
+            padding: 0.6rem 1.8rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .ligne-niveau .label-niveau {
+            font-weight: 600;
+            width: 80px;
+            color: #024d72;
+            font-size: 1.1rem;
+        }
+        .cases-container {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .cases-container input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            accent-color: #2b8cce;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        /* filtre et cartes sorts */
+        .filtre-sorts {
+            margin: 2rem 0 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .filtre-sorts label {
+            font-weight: 600;
+            color: #035a88;
+            background: white;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            box-shadow: 0 1px 4px #aac6dd;
+        }
+        .filtre-select {
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            border: 2px solid #7bb0d9;
+            background: white;
+            font-weight: 500;
+            color: #02466b;
+            cursor: pointer;
+        }
+        .grille-sorts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.2rem;
+            justify-content: flex-start;
+        }
+        .carte-sort {
+            flex: 1 1 280px;
+            max-width: 350px;
+            background: #f9fcff;
+            border-radius: 2rem 2rem 1.5rem 1.5rem;
+            border-left: 8px solid #3489c9;
+            box-shadow: 0 10px 12px -5px rgba(0,60,100,0.3);
+            transition: 0.15s;
+            cursor: pointer;
+        }
+        .carte-sort.open {
+            background: white;
+            box-shadow: 0 18px 22px -8px #024d72;
+        }
+        .carte-entete {
+            padding: 1.3rem 1.5rem;
+            font-weight: 700;
+            font-size: 1.3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(52, 137, 201, 0.1);
+            border-radius: 1.5rem 1.5rem 0 0;
+            color: #02466b;
+        }
+        .carte-entete span {
+            font-size: 1.7rem;
+            color: #2f6696;
+        }
+        .sort-niveau-badge {
+            background: #bbd9f0;
+            color: #024d72;
+            padding: 0.2rem 1rem;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .sort-resume {
+            padding: 0.8rem 1.5rem 1rem 1.5rem;
+            font-style: italic;
+            color: #1b4a6b;
+            border-bottom: 1px dashed #9ec3e2;
+        }
+        .sort-complet {
+            display: none;
+            padding: 1rem 1.5rem 1.5rem 1.5rem;
+            background: #e8f2fd;
+            border-radius: 0 0 1.5rem 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #013753;
+            white-space: pre-wrap;
+            border-top: 2px solid #7bb0d9;
+        }
+        .carte-sort.open .sort-complet {
+            display: block;
+        }
+        .carte-sort.open .sort-resume {
+            border-bottom: none;
+        }
+
+        /* éléments communs */
+        .titre-role {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 1.8rem;
+            padding-bottom: 0.3rem;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .liste-competences {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+        .competence-item {
+            background: #ffffffc9;
+            border-radius: 20px 8px 8px 20px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+            transition: all 0.15s ease;
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .competence-item.open {
+            background: white;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+        .competence-nom {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.1s;
+            border-radius: 20px 8px 8px 20px;
+        }
+        .competence-nom span {
+            font-size: 1.6rem;
+            line-height: 1;
+            color: #444;
+            margin-left: 0.5rem;
+        }
+        .description-courte {
+            padding: 0 1.5rem 1rem 1.5rem;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            font-style: italic;
+            border-top: 1px dashed #ccc;
+            margin-top: -0.3rem;
+            color: #2b2b2b;
+        }
+        .description-complete {
+            padding: 0 1.5rem 1.3rem 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #1f1f1f;
+            background: #fafafa;
+            border-radius: 0 0 12px 12px;
+            margin-top: -0.2rem;
+            border-top: 1px solid #ddd;
+            white-space: pre-wrap;
+        }
+        hr {
+            margin: 1.8rem 0 0.8rem 0;
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #b0b0b0, transparent);
+        }
+        .footer-note {
+            text-align: right;
+            font-size: 0.8rem;
+            color: #5a5a5a;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="fiche">
+    <div class="personnages">
+        <!-- BARBARE -->
+        <div class="col barbare">
+            <div class="titre-role">
+                Barbare du Zélote
+            </div>
+            <div id="barbare-liste" class="liste-competences"></div>
+        </div>
+
+        <!-- PALADIN -->
+        <div class="col paladin">
+            <div class="titre-role">
+                Paladin de la Rédemption
+            </div>
+            <div id="paladin-liste" class="liste-competences"></div>
+        </div>
+    </div>
+
+    <!-- SECTION SORTS (bleu clair) -->
+    <div class="sorts-section">
+        <div class="sorts-titre">
+            Sorts
+            <span class="sous-titre">emplacements</span>
+        </div>
+
+        <!-- Tableau de cases à cocher : niv 1,2,3 (ligne niv1 avec 2 cases) -->
+        <div class="tableau-emplacements">
+            <h3>◈ Emplacements de sorts</h3>
+            <div class="niveaux-table">
+                <div class="ligne-niveau">
+                    <span class="label-niveau">Niveau 1</span>
+                    <div class="cases-container">
+                        <input type="checkbox" class="slot-checkbox" id="n1-1"><label for="n1-1" style="margin-right:0.8rem;"> </label>
+                        <input type="checkbox" class="slot-checkbox" id="n1-2"><label for="n1-2"> </label>
+                    </div>
+                </div>
+                <div class="ligne-niveau">
+                    <span class="label-niveau">Niveau 2</span>
+                    <div class="cases-container">
+                        <input type="checkbox" class="slot-checkbox" id="n2-1"><label for="n2-1" style="margin-right:0.8rem;"> </label>
+                    </div>
+                </div>
+                <div class="ligne-niveau">
+                    <span class="label-niveau">Niveau 3</span>
+                    <div class="cases-container">
+                        <input type="checkbox" class="slot-checkbox" id="n3-1"><label for="n3-1"> </label>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size:0.8rem; margin-top:0.8rem; color:#2a577b;">✔ cases à cocher pour suivre les emplacements utilisés</p>
+        </div>
+
+        <!-- Filtre niveau + cartes sorts -->
+        <div class="filtre-sorts">
+            <label>Filtrer par niveau :</label>
+            <select id="filtreNiveau" class="filtre-select">
+                <option value="all">Tous les niveaux</option>
+                <option value="1">Niveau 1</option>
+                <option value="2">Niveau 2</option>
+                <option value="3">Niveau 3</option>
+            </select>
+        </div>
+
+        <div id="grille-sorts" class="grille-sorts">
+            <!-- généré via js -->
+        </div>
+    </div>
+
+    <hr>
+    <div class="footer-note">cliquez sur une compétence / sort pour voir la description complète</div>
+</div>
+
+<script>
+    (function() {
+        // ---------- COMPETENCES BARBARE ----------
+        const competencesBarbare = [
+            { nom: "Rage", resume: "Action bonus : avantage Force / résistance C/P/T, +dégâts. Dure 1 min, fin si pas attaqué/subi dégâts. Repos long.", complet: "En combat, vous vous battez avec une férocité bestiale. Durant votre tour, vous pouvez entrer en rage en utilisant une action bonus. En rage, vous gagnez les bénéfices suivants si vous ne portez pas d'armure lourde :\n• Avantage aux jets de Force et aux jets de sauvegarde de Force.\n• Bonus aux dégâts corps à corps (Force) selon niveau.\n• Résistance aux dégâts contondants, perforants et tranchants.\nSi vous lancez des sorts, impossible de lancer ou se concentrer pendant la rage.\nLa rage dure 1 minute. Elle finit prématurément si inconscient, ou si votre tour se termine sans avoir attaqué de créature hostile ni subi de dégâts depuis votre précédent tour. Vous pouvez l'arrêter (action bonus). Récupération après repos long." },
+            { nom: "Défense sans armure", resume: "CA = 10 + Dex + Con si aucune armure (bouclier autorisé).", complet: "Tant que vous ne portez pas d'armure, votre classe d'armure est égale à 10 + votre modificateur de Dextérité + votre modificateur de Constitution. Vous pouvez utiliser un bouclier et continuer de profiter de cette capacité." },
+            { nom: "Attaque téméraire (niv.2)", resume: "Avantage aux attaques de corps à corps (Force) mais les attaques contre vous ont aussi avantage jusqu'à votre prochain tour.", complet: "À partir du niveau 2, vous pouvez mettre de côté votre défense pour attaquer avec toute la violence du désespoir. Lorsque vous effectuez la première attaque de votre tour, vous pouvez décider d'effectuer une Attaque téméraire. Vous obtenez ainsi un avantage aux jets d'attaque au corps à corps avec une arme utilisant la Force durant ce tour, mais les attaques effectuées contre vous ont également un avantage jusqu'à votre prochain tour." },
+            { nom: "Sens du danger (niv.2)", resume: "Avantage aux jets de sauvegarde de Dextérité contre les effets visibles (pièges, sorts). Pas si aveuglé/assourdi/incapable.", complet: "Au niveau 2, vous ressentez une sensation étrange lorsque les choses qui vous entourent ne sont pas comme elles devraient être, vous donnant un avantage lorsque vous tentez de vous extirper du danger. Vous avez un avantage aux jets de sauvegarde de Dextérité contre les effets que vous pouvez voir, comme les pièges ou les sorts. Pour bénéficier de cet effet vous ne devez pas être aveuglé, assourdi ou incapable d'agir." },
+            { nom: "Attaque supplémentaire (niv.5)", resume: "Deux attaques au lieu d'une quand vous prenez l'action Attaquer.", complet: "À partir du niveau 5, vous pouvez attaquer deux fois, au lieu d'une seule, chaque fois que vous réalisez l'action Attaquer durant votre tour." },
+            { nom: "Déplacement rapide (niv.5)", resume: "Vitesse +3 m tant que sans armure lourde.", complet: "Au niveau 5, votre vitesse augmente de 3 mètres tant que vous ne portez pas d'armure lourde." },
+            { nom: "Fureur divine (niv.3, zélote)", resume: "En rage, +1d6 + (moitié niveau) dégâts nécrotiques ou radiants sur la 1ere cible touchée chaque tour.", complet: "À partir du niveau 3, vous pouvez canaliser la fureur divine dans vos attaques avec une arme. Si vous êtes en rage, la première créature que vous touchez à chacun de vos tours lors d'une attaque avec une arme prend des dégâts supplémentaires égaux à 1d6 + la moitié de votre niveau barbare. Les dégâts supplémentaires sont nécrotiques ou radiants ; vous choisissez le type de dégâts lorsque vous gagnez cette capacité." },
+            { nom: "Guerrier des dieux (niv.3, zélote)", resume: "Résurrection sans composantes matérielles (si sort comme rappel à la vie).", complet: "Au niveau 3, votre âme est destinée à des batailles sans fin. Si un sort, comme rappel à la vie, avait pour seul effet de vous ramener à la vie (mais pas comme mort-vivant), le lanceur de sort n'a pas besoin de posséder les composantes matérielles pour lancer le sort sur vous." }
+        ];
+
+        // ---------- COMPETENCES PALADIN ----------
+        const competencesPaladin = [
+            { nom: "Sens divin", resume: "Détecte célestes/fiélons/morts-vivants (18m) et lieux consacrés. Nb usages = 1 + Cha, récupération repos long.", complet: "Une forte présence maléfique éveille vos sens... (texte complet)" }, // version abrégée pour lisibilité
+            { nom: "Imposition des mains", resume: "Réserve de soins = niveau ×5 PV. Action : soigner ou guérir maladie/poison (5 PV). Inefficace sur morts-vivants/artificiels.", complet: "Votre toucher béni peut guérir les blessures. Vous possédez une réserve de points de vie à soigner qui se récupère après chaque repos long. ..." },
+            { nom: "Style de combat – Défense (niv.2)", resume: "Si armure portée, +1 à la CA.", complet: "Au niveau 2, vous adoptez un style particulier de combat. Choisissez Défense : si vous portez une armure, vous obtenez un bonus de +1 à la CA." },
+            { nom: "Incantation (niv.2)", resume: "Lance des sorts de paladin (préparation, Charisme). DD = 8 + maîtrise + Cha. Focaliseur symbole sacré.", complet: "Au niveau 2, vous apprenez à lancer des sorts comme un clerc. ..." },
+            { nom: "Châtiment divin (niv.2)", resume: "Dépensez un emplacement quand vous touchez au corps à corps : +2d8 (niv.1) +1d8/niv sup (max 5d8). +1d8 contre mort-vivant/fiélon.", complet: "À partir du niveau 2, quand vous touchez une créature avec une arme de corps à corps, vous pouvez utiliser n'importe quel emplacement de sort pour châtier cette créature et lui infliger des dégâts radiants supplémentaires. ..." }
+        ];
+
+        // ---------- SORTS (avec niveau, résumé et description complète) ----------
+        const sorts = [
+            {
+                nom: "Châtiment calcinant",
+                niveau: 1,
+                ecole: "évocation",
+                resume: "1 action bonus, concentration 1 min. Prochaine attaque au corps à corps : +1d6 feu et enflamme (jet Con chaque tour ou 1d6 feu).",
+                complet: "niveau 1 - évocation\nTemps d'incantation : 1 action bonus\nPortée : personnelle\nComposantes : V\nDurée : concentration, jusqu'à 1 minute\n\nLa prochaine fois que vous touchez une créature avec une attaque au corps à corps avec une arme pendant la durée du sort, votre arme est chauffée à blanc, et votre attaque inflige 1d6 dégâts de feu supplémentaires à la cible et l'enflamme. Au début de chacun de ses tours jusqu'à la fin du sort, la cible doit effectuer un jet de sauvegarde de Constitution. En cas d'échec, elle subit 1d6 dégâts de feu. En cas de réussite, le sort prend fin. Si la cible, ou une créature située à 1,50 mètre d'elle, utilise son action pour étouffer les flammes, ou si tout autre effet éteint les flammes (par exemple si la cible se plonge dans l'eau), le sort prend fin.\nAux niveaux supérieurs : Si vous lancez ce sort en utilisant un emplacement de sort de niveau 2 ou supérieur, les dégâts supplémentaires initiaux infligés par l'attaque augmentent de 1d6 pour chaque niveau d'emplacement au-delà du niveau 1."
+            },
+            {
+                nom: "Faveur divine",
+                niveau: 1,
+                ecole: "évocation",
+                resume: "1 action bonus, concentration 1 min. Vos attaques d'arme infligent +1d4 radiants.",
+                complet: "niveau 1 - évocation\nTemps d'incantation : 1 action bonus\nPortée : personnelle\nComposantes : V, S\nDurée : concentration, jusqu'à 1 minute\n\nVotre prière vous donne de la puissance dans un rayonnement divin. Jusqu'à ce que le sort se termine, vos attaques avec une arme infligent 1d4 dégâts radiants supplémentaires lorsqu'elles touchent."
+            }
+        ];
+
+        // RENDER COMPETENCES (identique, avec toggles)
+        function renderCompetences(containerId, competencesArray) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            competencesArray.forEach(comp => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'competence-item';
+                itemDiv.innerHTML = `
+                    <div class="competence-nom">
+                        ${comp.nom}
+                        <span>▼</span>
+                    </div>
+                    <div class="description-courte">${comp.resume}</div>
+                    <div class="description-complete" style="display:none;">${comp.complet.replace(/\n/g,'<br>')}</div>
+                `;
+                const header = itemDiv.querySelector('.competence-nom');
+                const short = itemDiv.querySelector('.description-courte');
+                const full = itemDiv.querySelector('.description-complete');
+                const arrow = header.querySelector('span');
+                header.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (full.style.display === 'block') {
+                        full.style.display = 'none';
+                        short.style.display = 'block';
+                        itemDiv.classList.remove('open');
+                        arrow.textContent = '▼';
+                    } else {
+                        full.style.display = 'block';
+                        short.style.display = 'none';
+                        itemDiv.classList.add('open');
+                        arrow.textContent = '▲';
+                    }
+                });
+                container.appendChild(itemDiv);
+            });
+        }
+
+        // RENDER SORTS avec filtre
+        const grille = document.getElementById('grille-sorts');
+        const filtreSelect = document.getElementById('filtreNiveau');
+
+        function afficherSorts(filtreNiveau) {
+            grille.innerHTML = '';
+            const filtres = sorts.filter(s => filtreNiveau === 'all' || s.niveau === parseInt(filtreNiveau));
+            filtres.forEach(s => {
+                const carte = document.createElement('div');
+                carte.className = 'carte-sort';
+                carte.innerHTML = `
+                    <div class="carte-entete">
+                        ${s.nom}
+                        <span>▼</span>
+                    </div>
+                    <div class="sort-niveau-badge">niveau ${s.niveau}</div>
+                    <div class="sort-resume">${s.resume}</div>
+                    <div class="sort-complet">${s.complet.replace(/\n/g,'<br>')}</div>
+                `;
+                const header = carte.querySelector('.carte-entete');
+                const completDiv = carte.querySelector('.sort-complet');
+                const resumeDiv = carte.querySelector('.sort-resume');
+                const arrow = header.querySelector('span');
+                header.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (carte.classList.contains('open')) {
+                        carte.classList.remove('open');
+                        arrow.textContent = '▼';
+                    } else {
+                        carte.classList.add('open');
+                        arrow.textContent = '▲';
+                    }
+                });
+                grille.appendChild(carte);
+            });
+        }
+
+        filtreSelect.addEventListener('change', (e) => {
+            afficherSorts(e.target.value);
+        });
+
+        // initialisation
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCompetences('barbare-liste', competencesBarbare);
+            renderCompetences('paladin-liste', competencesPaladin);
+            afficherSorts('all'); // tous les sorts au chargement
+        });
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche D&D – Druide, Moine, Sorts & Cantrips</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background-color: #cfcfcf;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .fiche {
+            max-width: 1700px;
+            width: 100%;
+            background: #e6e6e6;
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.35);
+            padding: 2.2rem;
+        }
+
+        .personnages {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 2.8rem;
+        }
+
+        .col {
+            flex: 1 1 380px;
+            min-width: 330px;
+            background: #f5f5f5;
+            border-radius: 2rem;
+            padding: 1.8rem 1.5rem;
+            box-shadow: inset 0 1px 5px rgba(255,255,255,0.8), 0 10px 14px rgba(0,0,0,0.12);
+        }
+
+        /* Druide – vert */
+        .druide {
+            border-left: 8px solid #2d6a4f;
+            border-bottom: 3px solid #1b4b34;
+        }
+        .druide .titre-role {
+            color: #14532d;
+            border-bottom: 3px solid #409f7a;
+        }
+        .druide .competence-nom {
+            background: rgba(45, 106, 79, 0.08);
+            border-left: 5px solid #2d6a4f;
+        }
+        .druide .competence-nom:hover {
+            background: rgba(45, 106, 79, 0.18);
+        }
+
+        /* Moine – jaune (ambiance or clair / moutarde) */
+        .moine {
+            border-left: 8px solid #b68b40;
+            border-bottom: 3px solid #8e6926;
+        }
+        .moine .titre-role {
+            color: #7a5c1f;
+            border-bottom: 3px solid #d4a851;
+        }
+        .moine .competence-nom {
+            background: rgba(182, 139, 64, 0.08);
+            border-left: 5px solid #b68b40;
+        }
+        .moine .competence-nom:hover {
+            background: rgba(182, 139, 64, 0.18);
+        }
+
+        /* Section sorts – vert clair */
+        .sorts-section {
+            background: #daf0da;
+            border-radius: 2.2rem;
+            padding: 2rem 2rem;
+            border: 3px solid #93c593;
+            box-shadow: inset 0 0 0 2px #ecffe7, 0 10px 18px rgba(40,80,30,0.2);
+            margin-bottom: 2rem;
+        }
+        .sorts-titre {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e5e1e;
+            border-bottom: 3px solid #5fa05f;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .sous-titre-sort {
+            font-size: 1rem;
+            font-weight: 400;
+            font-style: italic;
+            background: #f1fff0;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            color: #1e5e1e;
+        }
+
+        /* Section cantrips – vert clair mais distincte */
+        .cantrips-section {
+            background: #c6e9c6;
+            border-radius: 2.2rem;
+            padding: 2rem 2rem;
+            border: 3px solid #6fa86f;
+            box-shadow: inset 0 0 0 2px #dcf5dc, 0 10px 18px rgba(30,80,30,0.2);
+            margin-bottom: 1.5rem;
+        }
+        .cantrips-titre {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0f4f0f;
+            border-bottom: 3px solid #5fa05f;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        /* Tableau emplacements (cases à cocher) */
+        .tableau-emplacements {
+            background: #e2f5e2;
+            border-radius: 2rem;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: inset 0 1px 5px #b1d3b1;
+        }
+        .tableau-emplacements h3 {
+            color: #1d6b1d;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            font-size: 1.5rem;
+        }
+        .slots-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+        .slot-group {
+            background: white;
+            border-radius: 1.8rem;
+            padding: 1.2rem 1.8rem;
+            box-shadow: 0 2px 8px rgba(0,40,0,0.2);
+        }
+        .slot-group h4 {
+            color: #0b4f0b;
+            border-bottom: 1px solid #a0cfa0;
+            padding-bottom: 0.3rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+        .slot-check-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .slot-check-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #388e3c;
+            cursor: pointer;
+        }
+
+        /* Tableau sorts préparés (cases à cocher) */
+        .tableau-preparations {
+            background: #d8efd8;
+            border-radius: 2rem;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0 2rem 0;
+            box-shadow: inset 0 1px 5px #a0c5a0;
+        }
+        .tableau-preparations h3 {
+            color: #1d6b1d;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            font-size: 1.5rem;
+        }
+        .sorts-check-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+        .niveau-check-group {
+            background: white;
+            border-radius: 1.8rem;
+            padding: 1.2rem 1.8rem;
+            box-shadow: 0 2px 8px rgba(0,40,0,0.2);
+        }
+        .niveau-check-group h4 {
+            color: #0b4f0b;
+            border-bottom: 1px solid #a0cfa0;
+            padding-bottom: 0.3rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+        .sort-prep-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .sort-prep-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #388e3c;
+            cursor: pointer;
+        }
+        .sort-prep-item label {
+            color: #134e13;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        /* Filtres */
+        .filtres-sorts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            align-items: center;
+            background: #d2ecd2;
+            border-radius: 60px;
+            padding: 1rem 2rem;
+            margin-bottom: 2.2rem;
+        }
+        .filtre-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .filtre-group label {
+            font-weight: 600;
+            color: #125a12;
+            background: white;
+            padding: 0.3rem 1.2rem;
+            border-radius: 30px;
+            box-shadow: 0 1px 4px #88b388;
+        }
+        .filtre-select, .filtre-prep {
+            padding: 0.4rem 1.2rem;
+            border-radius: 30px;
+            border: 2px solid #68b368;
+            background: white;
+            font-weight: 500;
+            color: #035003;
+            cursor: pointer;
+        }
+
+        /* cartes sorts & cantrips */
+        .grille-sorts, .grille-cantrips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            justify-content: flex-start;
+        }
+        .carte-sort, .carte-cantrip {
+            flex: 1 1 300px;
+            max-width: 360px;
+            background: #f8fff8;
+            border-radius: 2rem 2rem 1.5rem 1.5rem;
+            border-left: 9px solid #4caf50;
+            box-shadow: 0 12px 14px -8px #2c5e2c;
+            transition: 0.15s;
+            cursor: pointer;
+            border-top: 1px solid #c8e6c8;
+        }
+        .carte-cantrip {
+            border-left: 9px solid #2e7d5e;
+            background: #f0faf0;
+        }
+        .carte-sort.open, .carte-cantrip.open {
+            background: white;
+            box-shadow: 0 18px 22px -8px #1d421d;
+        }
+        .carte-entete {
+            padding: 1.2rem 1.5rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(76, 175, 80, 0.15);
+            border-radius: 1.5rem 1.5rem 0 0;
+            color: #1b5e1b;
+        }
+        .carte-cantrip .carte-entete {
+            background: rgba(46, 125, 94, 0.15);
+        }
+        .carte-entete span {
+            font-size: 1.8rem;
+            color: #2e7d32;
+        }
+        .badges-sort {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            padding: 0.4rem 1.5rem 0 1.5rem;
+        }
+        .badge-niveau, .badge-temps, .badge-portee {
+            background: #c7e9c7;
+            color: #124e12;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+        .badge-temps { background: #bae1ba; }
+        .badge-portee { background: #a8d5a8; }
+        .badge-niveau-cantrip {
+            background: #a3d0a3;
+            color: #0f3f0f;
+        }
+        .sort-resume {
+            padding: 0.6rem 1.5rem 0.8rem 1.5rem;
+            font-style: italic;
+            color: #1e4a1e;
+            border-bottom: 1px dashed #9ece9e;
+        }
+        .sort-complet {
+            display: none;
+            padding: 1rem 1.5rem 1.5rem 1.5rem;
+            background: #e6f5e6;
+            border-radius: 0 0 1.5rem 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #0a390a;
+            white-space: pre-wrap;
+            border-top: 3px solid #7fc07f;
+        }
+        .carte-sort.open .sort-complet, .carte-cantrip.open .sort-complet {
+            display: block;
+        }
+
+        /* compétences génériques */
+        .titre-role {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 1.8rem;
+            padding-bottom: 0.3rem;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .liste-competences {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+        .competence-item {
+            background: #ffffffc9;
+            border-radius: 20px 8px 8px 20px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+            transition: all 0.15s ease;
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .competence-item.open {
+            background: white;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+        .competence-nom {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 20px 8px 8px 20px;
+        }
+        .competence-nom span {
+            font-size: 1.6rem;
+            line-height: 1;
+            color: #444;
+            margin-left: 0.5rem;
+        }
+        .description-courte {
+            padding: 0 1.5rem 1rem 1.5rem;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            font-style: italic;
+            border-top: 1px dashed #ccc;
+            margin-top: -0.3rem;
+            color: #2b2b2b;
+        }
+        .description-complete {
+            padding: 0 1.5rem 1.3rem 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            background: #fafafa;
+            border-radius: 0 0 12px 12px;
+            margin-top: -0.2rem;
+            border-top: 1px solid #ddd;
+            white-space: pre-wrap;
+        }
+        hr {
+            margin: 2rem 0 1rem 0;
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #9f9f9f, transparent);
+        }
+        .footer-note {
+            text-align: right;
+            font-size: 0.8rem;
+            color: #5a5a5a;
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+<div class="fiche">
+    <div class="personnages">
+        <!-- DRUIDE cercle de la Lune (vert) -->
+        <div class="col druide">
+            <div class="titre-role">
+                Druide · Cercle de la Lune
+            </div>
+            <div id="druide-liste" class="liste-competences"></div>
+        </div>
+
+        <!-- MOINE (jaune) -->
+        <div class="col moine">
+            <div class="titre-role">
+                Moine
+            </div>
+            <div id="moine-liste" class="liste-competences"></div>
+        </div>
+    </div>
+
+    <!-- SECTION SORTS (niveau 1 à 3) avec cases emplacements & préparés -->
+    <div class="sorts-section">
+        <div class="sorts-titre">
+            Sorts de niveau 1 à 3
+            <span class="sous-titre-sort">préparés & emplacements</span>
+        </div>
+
+        <!-- Tableau des emplacements (cases à cocher) -->
+        <div class="tableau-emplacements">
+            <h3>Emplacements de sorts disponibles</h3>
+            <div class="slots-grid">
+                <div class="slot-group">
+                    <h4>Niveau 1</h4>
+                    <div class="slot-check-item"><input type="checkbox" id="slot1-1"><label for="slot1-1"> </label></div>
+                    <div class="slot-check-item"><input type="checkbox" id="slot1-2"><label for="slot1-2"> </label></div>
+                    <div class="slot-check-item"><input type="checkbox" id="slot1-3"><label for="slot1-3"> </label></div>
+                    <div class="slot-check-item"><input type="checkbox" id="slot1-4"><label for="slot1-4"> </label></div>
+                </div>
+                <div class="slot-group">
+                    <h4>Niveau 2</h4>
+                    <div class="slot-check-item"><input type="checkbox" id="slot2-1"><label for="slot2-1"> </label></div>
+                    <div class="slot-check-item"><input type="checkbox" id="slot2-2"><label for="slot2-2"> </label></div>
+                    <div class="slot-check-item"><input type="checkbox" id="slot2-3"><label for="slot2-3"> </label></div>
+                </div>
+                <div class="slot-group">
+                    <h4>Niveau 3</h4>
+                    <div class="slot-check-item"><input type="checkbox" id="slot3-1"><label for="slot3-1"> </label></div>
+                    <div class="slot-check-item"><input type="checkbox" id="slot3-2"><label for="slot3-2"> </label></div>
+                    <div class="slot-check-item"><input type="checkbox" id="slot3-3"><label for="slot3-3"> </label></div>
+                </div>
+            </div>
+            <p style="font-size:0.8rem; color:#2b5e2b;">✔ Cochez les emplacements utilisés</p>
+        </div>
+
+        <!-- Tableau des sorts préparés (cases à cocher) -->
+        <div class="tableau-preparations">
+            <h3>Sorts préparés (cocher pour indiquer)</h3>
+            <div id="sorts-prep-container" class="sorts-check-grid"></div>
+        </div>
+
+        <!-- Filtres avec Préparé/Non préparé -->
+        <div class="filtres-sorts">
+            <div class="filtre-group">
+                <label>📊 Niveau</label>
+                <select id="filtreNiveauSort" class="filtre-select">
+                    <option value="all">Tous</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+            <div class="filtre-group">
+                <label>⏱️ Temps inc.</label>
+                <select id="filtreTemps" class="filtre-select">
+                    <option value="all">Tous</option>
+                    <option value="action">1 action</option>
+                    <option value="bonus">1 action bonus</option>
+                    <option value="reaction">1 réaction</option>
+                    <option value="minute">1 minute</option>
+                    <option value="heures">8 heures</option>
+                </select>
+            </div>
+            <div class="filtre-group">
+                <label>📏 Portée</label>
+                <select id="filtrePortee" class="filtre-select">
+                    <option value="all">Toutes</option>
+                    <option value="personnelle">personnelle</option>
+                    <option value="contact">contact</option>
+                    <option value="courte">≤ 18 m</option>
+                    <option value="longue">> 18 m</option>
+                </select>
+            </div>
+            <div class="filtre-group">
+                <label>✅ Préparation</label>
+                <select id="filtrePrepare" class="filtre-prep">
+                    <option value="all">Tous</option>
+                    <option value="prepared">Préparés</option>
+                    <option value="not-prepared">Non préparés</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Cartes sorts 1-3 -->
+        <div id="grille-sorts" class="grille-sorts"></div>
+    </div>
+
+    <!-- SECTION CANTRIPS (sorts mineurs) -->
+    <div class="cantrips-section">
+        <div class="cantrips-titre">
+            Sort mineurs 
+            <span class="sous-titre-sort">à volonté</span>
+        </div>
+        <div id="grille-cantrips" class="grille-cantrips"></div>
+    </div>
+
+    <hr>
+    <div class="footer-note">cliquez sur compétence / sort pour déplier · cases à cocher pour suivi</div>
+</div>
+
+<script>
+    (function() {
+        // ---------- DONNÉES DRUIDE (compétences) ----------
+        const competencesDruide = [
+            { nom: "Forme sauvage", resume: "2 utilisations (repos court/long). Transforme en bête déjà vue. Niv2 : FP ≤1/4, sans vol/nage. Niv4 : FP≤1/2 sans vol. Niv8 : FP≤1.", complet: "À partir du niveau 2, vous pouvez utiliser votre action pour prendre par magie la forme d'une bête que vous avez déjà vue auparavant. Vous pouvez utiliser ce pouvoir deux fois. Récupération après repos court/long.\n\nNiveau 2 : FP max 1/4, sans vitesse de vol ou nage. Niveau 4 : FP max 1/2, sans vol. Niveau 8 : FP max 1.\n\nVous restez transformé 1/2 niveau d'heure (minimum 1h). Retour anticipé par action bonus. Vous conservez Cha, Int, Sag. Les PV de la bête remplacent les vôtres. Vous ne pouvez pas lancer de sorts, mais concentration maintenue. L'équipement fusionne ou tombe." },
+            { nom: "Forme sauvage de combat (cercle Lune)", resume: "Action bonus pour se transformer. Dépensez un emplacement pour récupérer 1d8 PV/niveau.", complet: "Lorsque vous choisissez ce cercle au niveau 2, vous obtenez la possibilité d'utiliser Forme sauvage durant votre tour par une action bonus, au lieu d'une action. De plus, lorsque vous êtes transformé via Forme sauvage, vous pouvez utiliser une action bonus pour dépenser un emplacement de sort et récupérer ainsi 1d8 points de vie par niveau d'emplacement de sort dépensé." },
+            { nom: "Formes du cercle", resume: "Dès niv2 : FP ≤1 (ignorer FP max standard). Niv6 : FP ≤ niv/3 (arrondi inférieur).", complet: "Les rites de votre cercle vous permettent de prendre la forme d'animaux plus dangereux. À partir du niveau 2, vous pouvez utiliser Forme sauvage pour vous transformer en une bête de facteur de puissance inférieur ou égal à 1 (ignorez la colonne FP maximum de la table Types de bêtes, vous êtes cependant toujours soumis aux autres restrictions). À partir du niveau 6, vous pouvez vous transformer en une bête de facteur de puissance inférieur ou égal à votre niveau de druide divisé par 3, arrondi à l'entier inférieur." },
+            { nom: "Frappe primitive (niv.6)", resume: "Attaques sous forme de bête comptent comme magiques (résistances).", complet: "À partir du niveau 6, vos attaques sous forme de bête comptent comme des attaques magiques pour ce qui est de surmonter la résistance et l'immunité aux attaques et dégâts non magiques." }
+        ];
+
+        // MOINE (compétences)
+        const competencesMoine = [
+            { nom: "Défense sans armure", resume: "CA = 10 + Dex + Sag (sans armure ni bouclier).", complet: "Dès le niveau 1, tant que vous n'êtes équipé ni d'une armure, ni d'un bouclier, votre CA est égale à 10 + votre modificateur de Dextérité + votre modificateur de Sagesse." },
+            { nom: "Arts martiaux", resume: "Dex pour att/dégâts, dé d4 (progresse), attaque à mains nues en action bonus.", complet: "Au niveau 1, vous gagnez : utilisation Dextérité pour attaques à mains nues/armes de moine ; dégâts de base d4 (augmente avec niveau) ; lorsque vous utilisez l'action Attaquer avec une attaque à mains nues ou une arme de moine, vous pouvez effectuer une attaque à mains nues au prix d'une action bonus." }
+        ];
+
+        // ---------- SORTS 1-3 (56 décrits, avec niveau, temps, portée, résumé, complet) ----------
+        const sorts = [
+            { nom: "Absorption des éléments", niveau: 1, temps: "1 réaction", portee: "personnelle", resume: "Résistance à acide/froid/feu/foudre/tonnerre ; prochaine attaque au corps à corps +1d6 élément.", complet: "Absorption des éléments\nniveau 1 - abjuration\nTemps d'incantation : 1 réaction (quand vous subissez dégâts acide, froid, feu, foudre ou tonnerre)\nPortée : personnelle\nComposantes : S\nDurée : 1 round\nVous obtenez une résistance à ce type de dégâts jusqu'au début de votre prochain tour. La première fois que vous touchez avec une attaque au corps à corps lors de votre prochain tour, la cible subit 1d6 dégâts supplémentaires du même type.\nAux niveaux supérieurs : +1d6 par niveau." },
+            { nom: "Amélioration de caractéristique", niveau: 2, temps: "1 action", portee: "contact", resume: "Avantage à une carac (Force, Dex, Con, Int, Sag, Cha) selon choix, ou 2d6 PV temporaires (ours).", complet: "Amélioration de caractéristique\nniveau 2 - transmutation\nTemps : 1 action – contact – concentration 1h\nForce du taureau (avantage Force, charge doublée), Grâce féline (avantage Dex, pas de dégâts de chute ≤6m), Endurance de l'ours (avantage Con + 2d6 temporaires), Ruse renard (avantage Int), Sagesse hibou (avantage Sag), Splendeur aigle (avantage Cha).\nAux niv sup : cible supplémentaire par niv." },
+            { nom: "Amitié avec les animaux", niveau: 1, temps: "1 action", portee: "9 m", resume: "Charme une bête (Int<4) pendant 24h (JS Sag annule).", complet: "Amitié avec les animaux\nniveau 1 - enchantement\nTemps : 1 action – 9m – 24h\nChoisissez une bête (Int 3 ou moins). JS Sag ou charmée pour la durée. Si vous ou alliés la blessez, le sort finit.\nAux niv sup : +1 cible par niv." },
+            { nom: "Appel de la foudre", niveau: 3, temps: "1 action", portee: "36 m", resume: "Nuage cylindre (r=18m). Éclair : 3d10 foudre (Dex 1/2). Action pour rappeler.", complet: "Appel de la foudre\nniveau 3 - invocation\nTemps: 1 action – 36m – concentration 10min\nNuage (cylindre h=3m, r=18m). Choisissez un point, un éclair : 3d10 foudre, Dex 1/2. Action pour refaire. Si orage extérieur : +1d10.\n+1d10 par niv sup." },
+            { nom: "Attraction terrestre", niveau: 2, temps: "1 action", portee: "90 m", resume: "Vol réduit à 0, descente 18 m/round (JS Force annule).", complet: "Attraction terrestre\nniveau 2 - transmutation\nTemps: 1 action – 90m – concentration 1min\nLa cible (JS Force) voit sa vitesse de vol réduite à 0 et descend de 18 m/round jusqu'au sol." },
+            { nom: "Baies nourricières", niveau: 1, temps: "1 action", portee: "contact", resume: "Crée 10 baies : 1 PV + nourriture pour un jour. Se conserve 24h.", complet: "Baies nourricières\nniveau 1 - transmutation\nTemps: 1 action – contact – instantané\n10 baies magiques. Une action pour en manger une : 1 PV et nourriture pour un jour. Perdent leur pouvoir après 24h." },
+            { nom: "Bourrasque", niveau: 2, temps: "1 action", portee: "personnelle", resume: "Corridor vent 18m x 3m, pousse créatures (Force). Éteint flammes.", complet: "Bourrasque\nniveau 2 - évocation\nTemps: 1 action – personnelle (ligne 18m) – concentration 1min\nVent fort. Créature début tour dans zone : JS Force ou poussée 4,5m. Dépense double mouvement pour s'approcher. Éteint flammes. Action bonus pour changer direction." },
+            { nom: "Charme-personne", niveau: 1, temps: "1 action", portee: "9 m", resume: "Charme un humanoïde (JS Sag). Vous êtes un ami.", complet: "Charme-personne\nniveau 1 - enchantement\nTemps: 1 action – 9m – 1h\nJS Sag ou charmé. Avantage si vous combattez la cible. La cible vous voit comme ami. À la fin, elle sait qu'elle a été charmée.\n+1 cible par niv (à 9m max)." },
+            { nom: "Collet", niveau: 1, temps: "1 minute", portee: "contact", resume: "Piège corde (1,5m) : Dex ou pendue tête en bas, entravée.", complet: "Collet\nniveau 1 - abjuration\nTemps: 1 minute – contact – 8h\nCercle de corde (r=1,5m) invisible (Investigation contre DD). Se déclenche si créature P/M/G marche dedans : JS Dex ou pendue (entravée). Peut refaire Dex chaque tour pour se libérer. Quelqu'un peut utiliser action (Arcanes) pour libérer." },
+            { nom: "Communication avec les animaux", niveau: 1, temps: "1 action", portee: "personnelle", resume: "Comprendre et parler avec les bêtes 10 min.", complet: "Communication avec les animaux\nniveau 1 - divination (rituel)\nTemps: 1 action – personnelle – 10 min\nComprenez et communiquez avec les bêtes. Leurs connaissances sont limitées mais peuvent fournir infos." },
+            { nom: "Communication avec les plantes", niveau: 3, temps: "1 action", portee: "personnelle", resume: "Parler avec plantes, terrain difficile, interroger sur événements.", complet: "Communication avec les plantes\nniveau 3 - transmutation\nTemps: 1 action – personnelle (rayon 9m) – 10min\nLes plantes deviennent sensibles. Vous pouvez interroger sur événements récents, transformer terrain difficile en normal ou l'inverse. Parler avec créatures végétales." },
+            { nom: "Convocation de bête", niveau: 2, temps: "1 action", portee: "27 m", resume: "Invoque un esprit de bête (air/terre/eau) – bloc selon niv.", complet: "Convocation de bête\nniveau 2 - invocation\nTemps: 1 action – 27m – concentration 1h\nInvoque 1 esprit de bête (air, terre, eau). Amical, utilise votre bonus de maîtrise. Possède des PV = 5+5×niveau. Attaques magiques." },
+            { nom: "Convocation de fée", niveau: 3, temps: "1 action", portee: "27 m", resume: "Invoque un esprit de fée (furieux, joyeux, rusé).", complet: "Convocation de fée\nniveau 3 - invocation\nTemps: 1 action – 27m – concentration 1h\nInvoque un esprit de fée. Son trait dépend de l'humeur choisie. PV = 10+10×niveau. Attaque magique." },
+            { nom: "Couteau de glace", niveau: 1, temps: "1 action", portee: "18 m", resume: "Attaque à distance: 1d10 perçants + explosion 2d6 froid (Dex 1/2).", complet: "Couteau de glace\nniveau 1 - invocation\nTemps: 1 action – 18m – instantané\nAttaque à distance : 1d10 perforants. Puis explosion (rayon 1,5m) : Dex ou 2d6 froid.\n+1d6 froid par niv." },
+            { nom: "Création ou destruction d'eau", niveau: 1, temps: "1 action", portee: "9 m", resume: "Crée ou détruit 40L d'eau, ou pluie (éteint flammes) / dissipe brouillard.", complet: "Création ou destruction d'eau\nniveau 1 - transmutation\nTemps: 1 action – 9m – instantané\nCrée 40L d'eau ou les détruit. Peut créer une pluie (cube 9m) ou dissiper brouillard (cube 9m). +40L / +1,5m par niv." },
+            { nom: "Croissance d'épines", niveau: 2, temps: "1 action", portee: "45 m", resume: "Zone r=6m terrain difficile, 2d4 perçants par 1,5m parcouru.", complet: "Croissance d'épines\nniveau 2 - transmutation\nTemps: 1 action – 45m – concentration 10min\nLe sol se couvre d'épines (camouflé, Perception DD sort). Terrain difficile. Toute entrée/déplacement subit 2d4 per 1,5m." },
+            { nom: "Croissance végétale", niveau: 3, temps: "1 action", portee: "45 m", resume: "Action: zone 30m, végétation dense (4 m pour 1 m). 8h : enrichit sol (double récolte 1 an).", complet: "Croissance végétale\nniveau 3 - transmutation\nTemps: 1 action ou 8h – 45m – instantané\nAction : rayon 30m, plantes croissent, mouvement 4:1. 8h : enrichit 400 m de rayon, double récolte pour 1 an." },
+            { nom: "Détection de la magie", niveau: 1, temps: "1 action", portee: "personnelle", resume: "Perçoit magie 9m ; action pour discerner école.", complet: "Détection de la magie\nniveau 1 - divination (rituel)\nTemps: 1 action – personnelle – concentration 10min\nVous sentez la magie dans 9m. Action pour voir une aura et son école." },
+            { nom: "Détection du poison et des maladies", niveau: 1, temps: "1 action", portee: "personnelle", resume: "Détecte poisons, maladies, créatures venimeuses 9m.", complet: "Détection du poison et des maladies\nniveau 1 - divination (rituel)\nTemps: 1 action – personnelle – concentration 10min\nVous percevez la présence de poison, maladie, ou créature venimeuse à 9m. Vous identifiez le type." },
+            { nom: "Dissipation de la magie", niveau: 3, temps: "1 action", portee: "36 m", resume: "Met fin aux sorts de niveau ≤3. Niveau≥4 : jet carac DD 10+niv.", complet: "Dissipation de la magie\nniveau 3 - abjuration\nTemps: 1 action – 36m – instantané\nChoisissez créature, objet ou effet magique : sorts niveau ≤3 se terminent. Pour chaque sort ≥4, jet carac (DD 10+niveau).\nAux niv sup : si emplacement ≥ niveau du sort, auto-dissipation." },
+            { nom: "Enchevêtrement", niveau: 1, temps: "1 action", portee: "27 m", resume: "Zone 6m, terrain difficile + Force ou entravé.", complet: "Enchevêtrement\nniveau 1 - invocation\nTemps: 1 action – 27m – concentration 1min\nHerbes et lianes, terrain difficile. Les créatures présentes au départ : JS Force ou entravées. Action pour se libérer (Force)." },
+            { nom: "Éruption de terre", niveau: 3, temps: "1 action", portee: "36 m", resume: "Cube 6m, 3d12 contondants (Dex 1/2), terrain difficile.", complet: "Éruption de terre\nniveau 3 - transmutation\nTemps: 1 action – 36m – instantané\nExplosion de terre : 3d12 contondants (Dex 1/2). Zone terrain difficile (minute pour déblayer 1,5m).\n+1d12 par niv." },
+            { nom: "Esprit guérisseur", niveau: 2, temps: "1 action bonus", portee: "18 m", resume: "Invoque un esprit : peut soigner 1d6 (1+mod usages). Déplacement 9m (bonus).", complet: "Esprit guérisseur\nniveau 2 - invocation\nTemps: 1 action bonus – 18m – concentration 1min\nEsprit immatériel. Quand une créature entre ou commence son tour dans son espace, peut récupérer 1d6 PV. Max soins : 1+mod. Bonus action pour le déplacer 9m.\n+1d6 par niv." },
+            { nom: "Flèches enflammées", niveau: 3, temps: "1 action", portee: "contact", resume: "Un carquois (12 munitions) : +1d6 feu par attaque à distance.", complet: "Flèches enflammées\nniveau 3 - transmutation\nTemps: 1 action – contact – concentration 1h\nJusqu'à 12 flèches ou carreaux : +1d6 feu quand touchent. La munition perd la magie après tir.\n+2 munitions par niv sup." },
+            { nom: "Fusion dans la pierre", niveau: 3, temps: "1 action", portee: "contact", resume: "Vous fusionnez dans la pierre 8h, impossible à détecter.", complet: "Fusion dans la pierre\nniveau 3 - transmutation (rituel)\nTemps: 1 action – contact – 8h\nVous entrez dans la pierre (assez grande). Indétectable. Désavantage Perception (ouïe). Vous sortez par le point d'entrée. Destruction pierre = 6d6/50 dégâts." },
+            { nom: "Grande foulée", niveau: 1, temps: "1 action", portee: "contact", resume: "Vitesse +3m, 1h.", complet: "Grande foulée\nniveau 1 - transmutation\nTemps: 1 action – contact – 1h\nAugmente la vitesse de 3m.\n+1 cible par niv sup." },
+            { nom: "Immobilisation de personne", niveau: 2, temps: "1 action", portee: "18 m", resume: "Humanoïde paralysé (JS Sag) ; retente chaque tour.", complet: "Immobilisation de personne\nniveau 2 - enchantement\nTemps: 1 action – 18m – concentration 1min\nCible humanoïde JS Sag ou paralysée. Nouveau JS à chaque fin de tour.\n+1 cible (≤9m) par niv sup." },
+            { nom: "Invocation d'animaux", niveau: 3, temps: "1 action", portee: "18 m", resume: "Invoque des bêtes (fées) FP cumulé (ex: 1xFP2, 2xFP1, 4xFP1/2, 8xFP1/4).", complet: "Invocation d'animaux\nniveau 3 - invocation\nTemps: 1 action – 18m – concentration 1h\nChoisissez : 1 bête FP2, ou 2 FP1, ou 4 FP1/2, ou 8 FP1/4. Amicales. Elles agissent à leur tour.\nNiv5 : x2 ; niv7 : x3 ; niv9 : x4." },
+            { nom: "Lame de feu", niveau: 2, temps: "1 action bonus", portee: "personnelle", resume: "Lame ardente (cimeterre) : 3d6 feu, attaque au corps à corps.", complet: "Lame de feu\nniveau 2 - évocation\nTemps: 1 action bonus – personnelle – concentration 10min\nLame de feu dans main libre. Attaque au corps à corps : 3d6 feu. Réinvoquable par bonus si lâchée. Lumière vive 3m.\n+1d6 / 2 niv (≥4)" },
+            { nom: "Libellé aérien", niveau: 2, temps: "1 action", portee: "champ de vision", resume: "Écrit jusqu'à 10 mots dans le ciel (nuages).", complet: "Libellé aérien\nniveau 2 - transmutation (rituel)\nTemps: 1 action – vue – concentration 1h\nDes mots apparaissent dans le ciel (nuage). Vent fort peut les disperser." },
+            { nom: "Lien avec une bête", niveau: 1, temps: "1 action", portee: "contact", resume: "Lien télépathique avec bête (Int≤3). Avantage si proche de vous.", complet: "Lien avec une bête\nniveau 1 - divination\nTemps: 1 action – contact – concentration 10min\nLien avec une bête amie/charmée (Int 3 ou -). Compréhension télépathique. La bête a avantage attaque contre créatures à 1,5m de vous." },
+            { nom: "Localisation d'animaux ou de plantes", niveau: 2, temps: "1 action", portee: "personnelle", resume: "Direction et distance de la bête/plante (espèce) la plus proche (7,5 km).", complet: "Localisation d'animaux ou de plantes\nniveau 2 - divination (rituel)\nTemps: 1 action – personnelle – instantané\nConnaît direction et distance de la bête ou plante (espèce désignée) la plus proche dans 7,5 km." },
+            { nom: "Localisation d'objet", niveau: 2, temps: "1 action", portee: "personnelle", resume: "Direction d'un objet familier (300 m). Bloquer par plomb.", complet: "Localisation d'objet\nniveau 2 - divination\nTemps: 1 action – personnelle – concentration 10min\nRessentez la direction d'un objet familier à ≤300m. Peut localiser le plus proche d'un type (arme, meuble...). Plomb bloque." },
+            { nom: "Lueurs féeriques", niveau: 1, temps: "1 action", portee: "18 m", resume: "Cube 6m, créatures enveloppées (Dex). Avantage attaques.", complet: "Lueurs féeriques\nniveau 1 - évocation\nTemps: 1 action – 18m – concentration 1min\nObjets/créatures dans cube 6m : halo (Dex annule). Avantage aux attaques contre eux. Neutralise invisibilité." },
+            { nom: "Lumière du jour", niveau: 3, temps: "1 action", portee: "18 m", resume: "Sphère 18m lumière vive, +18m faible. Dissipe ténèbres ≤3.", complet: "Lumière du jour\nniveau 3 - évocation\nTemps: 1 action – 18m – 1h\nSphère 18m de lumière vive. Dissipe sorts de ténèbres de niveau ≤3." },
+            { nom: "Marche sur l'eau", niveau: 3, temps: "1 action", portee: "9 m", resume: "10 créatures marchent sur liquides 1h.", complet: "Marche sur l'eau\nniveau 3 - transmutation (rituel)\nTemps: 1 action – 9m – 1h\nJusqu'à 10 créatures peuvent se déplacer sur l'eau, acide, boue, lave (dégâts normaux)." },
+            { nom: "Messager animal", niveau: 2, temps: "1 action", portee: "9 m", resume: "Un animal porte un message de 25 mots sur 24h (75 km/37,5 km).", complet: "Messager animal\nniveau 2 - enchantement (rituel)\nTemps: 1 action – 9m – 24h\nUn animal de taille TP porte un message vers une destination/destinataire. Vitesse 75km/j (vol) ou 37,5km/j.\n+48h par niv sup." },
+            { nom: "Métal brûlant", niveau: 2, temps: "1 action", portee: "18 m", resume: "Objet métallique rougit : 2d8 feu (action bonus répétable). Lâcher ou désavantage.", complet: "Métal brûlant\nniveau 2 - transmutation\nTemps: 1 action – 18m – concentration 1min\nObjet métal rouge : 2d8 feu. Action bonus pour refaire. Si tient/porte, JS Con ou lâche, sinon désavantage.\n+1d8 par niv." },
+            { nom: "Mort simulée", niveau: 3, temps: "1 action", portee: "contact", resume: "Créature consentante : état cataleptique (morte apparente) 1h, résistance à tous dégâts sauf psy.", complet: "Mort simulée\nniveau 3 - nécromancie (rituel)\nTemps: 1 action – contact – 1h\nLa cible passe pour morte. Incapable, aveugle, vitesse 0. Résistance à tous dégâts sauf psychiques. Maladies/poisons suspendus." },
+            { nom: "Mot de guérison", niveau: 1, temps: "1 action bonus", portee: "18 m", resume: "1d4 + modif. Pas sur mort-vivant/artificiel.", complet: "Mot de guérison\nniveau 1 - évocation\nTemps: 1 action bonus – 18m – instantané\nRécupère 1d4+mod. +1d4 par niv sup." },
+            { nom: "Mur d'eau", niveau: 3, temps: "1 action", portee: "18 m", resume: "Mur d'eau 9x3x0,3m (ou cercle). Désavantage attaques à distance, réduit feu.", complet: "Mur d'eau\nniveau 3 - évocation\nTemps: 1 action – 18m – concentration 10min\nMur d'eau : terrain difficile. Attaques à distance désavantage, dégâts de feu divisés par 2. Froid gèle (15 PV/1,5m)." },
+            { nom: "Mur de vent", niveau: 3, temps: "1 action", portee: "36 m", resume: "Mur 15x4,5x0,3m. Dégâts 3d8 contondants (Force). Arrête projectiles.", complet: "Mur de vent\nniveau 3 - évocation\nTemps: 1 action – 36m – concentration 1min\nMur de vent : créatures présentes subissent 3d8 (Force 1/2). Tient brouillard, projectiles perdus. Petites créatures ne passent pas." },
+            { nom: "Nappe de brouillard", niveau: 1, temps: "1 action", portee: "36 m", resume: "Sphère brouillard r=6m, visibilité nulle. Dissipée par vent.", complet: "Nappe de brouillard\nniveau 1 - invocation\nTemps: 1 action – 36m – concentration 1h\nSphère brouillard r=6m, visibilité nulle.\n+6m par niv sup." },
+            { nom: "Passage sans trace", niveau: 2, temps: "1 action", portee: "personnelle", resume: "+10 discrétion pour vous et alliés 9m, impossible à pister.", complet: "Passage sans trace\nniveau 2 - abjuration\nTemps: 1 action – personnelle – concentration 1h\nChaque créature choisie dans 9m a +10 en Discrétion et ne laisse pas de traces." },
+            { nom: "Peau d'écorce", niveau: 2, temps: "1 action", portee: "contact", resume: "CA ≥16, peu importe l'armure.", complet: "Peau d'écorce\nniveau 2 - transmutation\nTemps: 1 action – contact – concentration 1h\nLa CA de la cible ne peut être inférieure à 16." },
+            { nom: "Protection contre le poison", niveau: 2, temps: "1 action", portee: "contact", resume: "Neutralise poison, avantage JS, résistance poison 1h.", complet: "Protection contre le poison\nniveau 2 - abjuration\nTemps: 1 action – contact – 1h\nNeutralise un poison. Pour la durée, avantage JS contre poison, résistance dégâts poison." },
+            { nom: "Protection contre une énergie", niveau: 3, temps: "1 action", portee: "contact", resume: "Résistance à acide, froid, feu, foudre ou tonnerre 1h (concentration).", complet: "Protection contre une énergie\nniveau 3 - abjuration\nTemps: 1 action – contact – concentration 1h\nRésistance à un type (acide, froid, feu, foudre, tonnerre)." },
+            { nom: "Purification de nourriture et d'eau", niveau: 1, temps: "1 action", portee: "3 m", resume: "Purifie nourriture/boisson (sphère 1,5m).", complet: "Purification de nourriture et d'eau\nniveau 1 - transmutation (rituel)\nTemps: 1 action – 3m – instantané\nNourriture/boisson non magique purifiée (poison, maladie)." },
+            { nom: "Rayon de lune", niveau: 2, temps: "1 action", portee: "36 m", resume: "Cylindre (h12m r1,5m) : 2d10 radiants (Con). Métamorphe : désavantage, retour forme originale.", complet: "Rayon de lune\nniveau 2 - évocation\nTemps: 1 action – 36m – concentration 1min\nCylindre de lumière. Créature qui entre/débute son tour : 2d10 radiants (Con 1/2). Métamorphe désavantage et force retour forme originelle. Déplacement action 18m.\n+1d10 par niv." },
+            { nom: "Raz-de-marée", niveau: 3, temps: "1 action", portee: "36 m", resume: "Vague 9x3x3m, 4d8 contondants (Dex 1/2) et tombe à terre.", complet: "Raz-de-marée\nniveau 3 - invocation\nTemps: 1 action – 36m – instantané\nVague d'eau : créatures zone 4d8 contondants (Dex 1/2) + tombe terre. Éteint flammes." },
+            { nom: "Respiration aquatique", niveau: 3, temps: "1 action", portee: "9 m", resume: "10 créatures respirent sous l'eau 24h.", complet: "Respiration aquatique\nniveau 3 - transmutation (rituel)\nTemps: 1 action – 9m – 24h\nLes cibles peuvent respirer sous l'eau (conservent respiration normale)." },
+            { nom: "Restauration partielle", niveau: 2, temps: "1 action", portee: "contact", resume: "Met fin à une maladie ou état (aveuglé, assourdi, paralysé, empoisonné).", complet: "Restauration partielle\nniveau 2 - abjuration\nTemps: 1 action – contact – instantané\nGuérit une maladie ou un état : aveuglé, assourdi, paralysé, empoisonné." },
+            { nom: "Saut", niveau: 1, temps: "1 action", portee: "contact", resume: "Triple la distance de saut 1 min.", complet: "Saut\nniveau 1 - transmutation\nTemps: 1 action – contact – 1min\nLa distance de saut de la créature est triplée." },
+            { nom: "Secousse sismique", niveau: 1, temps: "1 action", portee: "3 m", resume: "Zone 3m, 1d6 contondants (Dex) + à terre. Terrain difficile.", complet: "Secousse sismique\nniveau 1 - évocation\nTemps: 1 action – 3m – instantané\nTremblement : 1d6 contondants + à terre (Dex 1/2). Zone (terre/pierre) devient terrain difficile.\n+1d6 par niv." },
+            { nom: "Sens animal", niveau: 2, temps: "1 action", portee: "contact", resume: "Perçoit par les sens d'une bête 1h (concentration).", complet: "Sens animal\nniveau 2 - divination (rituel)\nTemps: 1 action – contact – concentration 1h\nVous voyez/entendez via les sens d'une bête consentante. Vous perdez vos propres sens." },
+            { nom: "Sens des pièges", niveau: 2, temps: "1 action", portee: "36 m", resume: "Détecte présence de pièges (mécaniques ou magiques).", complet: "Sens des pièges\nniveau 2 - divination\nTemps: 1 action – 36m – instantané\nVous ressentez la présence de tout piège dans votre champ de vision. Vous apprenez la nature générale du danger." },
+            { nom: "Soins", niveau: 1, temps: "1 action", portee: "contact", resume: "1d8+mod. Pas sur mort-vivant/artificiel.", complet: "Soins\nniveau 1 - évocation\nTemps: 1 action – contact – instantané\nRécupère 1d8+mod.\n+1d8 par niv." },
+            { nom: "Sphère de feu", niveau: 2, temps: "1 action", portee: "18 m", resume: "Sphère 1,5m (2d6 feu) ; bonus pour déplacer 9m.", complet: "Sphère de feu\nniveau 2 - invocation\nTemps: 1 action – 18m – concentration 1min\nSphère de feu : créature finit son tour à ≤1,5m : 2d6 feu (Dex 1/2). Action bonus pour déplacer 9m.\n+1d6 par niv." },
+            { nom: "Tempête de neige", niveau: 3, temps: "1 action", portee: "45 m", resume: "Cylindre r=12m, visibilité nulle, terrain difficile, Dex ou à terre, concentration.", complet: "Tempête de neige\nniveau 3 - invocation\nTemps: 1 action – 45m – concentration 1min\nPluie glacée/neige. Visibilité nulle, terrain difficile (glace). Entrée/début tour : Dex ou à terre. Concentration difficile." },
+            { nom: "Tourbillon de poussière", niveau: 2, temps: "1 action", portee: "18 m", resume: "Cube 1,5m : 1d8 contondants (Force) + repoussé 3m. Bonus déplacement 9m.", complet: "Tourbillon de poussière\nniveau 2 - invocation\nTemps: 1 action – 18m – concentration 1min\nCylindre tourbillon. Créature finit tour ≤1,5m : 1d8 contondants (Force 1/2) et repoussé 3m. Bonus action déplacer 9m. Sur sable : nuage visibilité nulle.\n+1d8 par niv." },
+            { nom: "Vague tonnante", niveau: 1, temps: "1 action", portee: "personnelle", resume: "Cube 4,5m : 2d8 tonnerre (Con 1/2) + repoussé 3m.", complet: "Vague tonnante\nniveau 1 - évocation\nTemps: 1 action – personnelle (cube 4,5m) – instantané\nVague tonnerre : 2d8 tonnerre (Con 1/2) + repoussé 3m. Objets non fixés aussi repoussés. Son audible 90m.\n+1d8 par niv." },
+            { nom: "Vent protecteur", niveau: 2, temps: "1 action", portee: "personnelle", resume: "Vent r=3m (vous suit) : assourdit, éteint flammes, terrain difficile, désavantage attaques à distance.", complet: "Vent protecteur\nniveau 2 - évocation\nTemps: 1 action – personnelle – concentration 10min\nVent fort autour de vous (rayon 3m). Vous êtes sourd ainsi que les créatures dans la zone. Éteint flammes. Dissipe gaz, brouillard. Terrain difficile. Attaques à distance désavantage." },
+            { nom: "Vision dans le noir", niveau: 2, temps: "1 action", portee: "contact", resume: "Vision dans le noir 18m pendant 8h.", complet: "Vision dans le noir\nniveau 2 - transmutation\nTemps: 1 action – contact – 8h\nLa cible gagne vision dans le noir (18m)." }
+        ];
+
+        // ---------- CANTRIPS (sorts mineurs) ----------
+        const cantrips = [
+            { nom: "Assistance", niveau: 0, temps: "1 action", portee: "contact", resume: "La cible peut lancer 1d4 et l'ajouter à un jet de caractéristique.", complet: "Assistance\nniveau 0 - divination\nTemps d'incantation : 1 action\nPortée : contact\nComposantes : V, S\nDurée : concentration, jusqu'à 1 minute\nVous touchez une créature consentante. Une fois avant la fin du sort, la cible peut lancer un d4 et ajouter le résultat du dé à un jet de caractéristique de son choix. Elle peut lancer le dé avant ou après avoir effectué son jet. Le sort prend alors fin." },
+            { nom: "Bouffée de poison", niveau: 0, temps: "1 action", portee: "3 m", resume: "1d12 poison (Con). Dégâts +1d12 aux niveaux 5/11/17.", complet: "Bouffée de poison\nniveau 0 - invocation\nTemps: 1 action – 3m – instantané\nLa créature doit réussir un JS de Constitution ou subir 1d12 poison. +1d12 niv5 (2d12), niv11 (3d12), niv17 (4d12)." },
+            { nom: "Contrôle des flammes", niveau: 0, temps: "1 action", portee: "18 m", resume: "Manipule un feu (croissance, extinction, couleur, formes).", complet: "Contrôle des flammes\nniveau 0 - transmutation\nTemps: 1 action – 18m – inst. ou 1h\nFait grossir un feu de 1,5m, éteint, change lumière/couleur, crée des formes. Max 3 effets simultanés." },
+            { nom: "Coup de tonnerre", niveau: 0, temps: "1 action", portee: "1,5 m", resume: "1d6 tonnerre (Con), son audible 30m. +1d6/5/11/17.", complet: "Coup de tonnerre\nniveau 0 - évocation\nTemps: 1 action – 1,5m – instantané\nBruit de tonnerre. Toute créature (sauf vous) doit réussir JS Con ou subir 1d6 tonnerre. +1d6 niv5/11/17." },
+            { nom: "Druidisme", niveau: 0, temps: "1 action", portee: "9 m", resume: "Effets sensoriels mineurs, prédire météo, allumer/éteindre.", complet: "Druidisme\nniveau 0 - transmutation\nTemps: 1 action – 9m – instantané\nPrédire météo (24h), faire fleurir, effet sensoriel (feuilles, vent, odeur), allumer/éteindre bougie." },
+            { nom: "Embrasement", niveau: 0, temps: "1 action", portee: "18 m", resume: "Feu de joie (cube 1,5m) : 1d8 feu (Dex) si dedans. +1d8/5/11/17.", complet: "Embrasement\nniveau 0 - invocation\nTemps: 1 action – 18m – concentration 1min\nFeu de joie magique. Créature sur sa case ou y entrant : 1d8 feu (Dex 1/2). +1d8 niv5/11/17." },
+            { nom: "Façonnage de l'eau", niveau: 0, temps: "1 action", portee: "9 m", resume: "Déplace eau, crée formes, change couleur, gèle 1h.", complet: "Façonnage de l'eau\nniveau 0 - transmutation\nTemps: 1 action – 9m – inst. ou 1h\nManipule eau (cube 1,5m) : déplace 1,5m, formes, couleur/opacité, gèle. Max 2 effets non-instantanés." },
+            { nom: "Façonnage de la terre", niveau: 0, temps: "1 action", portee: "9 m", resume: "Creuse, déplace terre, formes/couleurs, terrain difficile.", complet: "Façonnage de la terre\nniveau 0 - transmutation\nTemps: 1 action – 9m – inst. ou 1h\nTerre/pierre (cube 1,5m) : creuse/déplace terre, formes/couleurs, rend terrain difficile ou normal. Max 2 effets." },
+            { nom: "Flammes", niveau: 0, temps: "1 action", portee: "personnelle", resume: "Flamme main (lumière). Attaque à distance 1d8 feu. +1d8/5/11/17.", complet: "Flammes\nniveau 0 - invocation\nTemps: 1 action – personnelle – 10 min\nFlamme dans main (lumière 3/3m). Attaque à distance 9m : 1d8 feu. +1d8 niv5/11/17." },
+            { nom: "Fouet épineux", niveau: 0, temps: "1 action", portee: "9 m", resume: "Attaque corps à corps : 1d6 perçants + tire cible 3m. +1d6/5/11/17.", complet: "Fouet épineux\nniveau 0 - transmutation\nTemps: 1 action – 9m – instantané\nAttaque au corps à corps : 1d6 perçants, tire cible de taille G ou - de 3m vers vous. +1d6 niv5/11/17." },
+            { nom: "Gelure", niveau: 0, temps: "1 action", portee: "18 m", resume: "1d6 froid (Con) + désavantage prochaine attaque arme. +1d6/5/11/17.", complet: "Gelure\nniveau 0 - évocation\nTemps: 1 action – 18m – instantané\nGivre sur créature : 1d6 froid (Con). En cas d'échec, désavantage prochain jet d'attaque avec arme. +1d6 niv5/11/17." },
+            { nom: "Gourdin magique", niveau: 0, temps: "1 action bonus", portee: "contact", resume: "Bâton/gourdin magique : d8, utilise carac d'incantation. 1 min.", complet: "Gourdin magique\nniveau 0 - transmutation\nTemps: 1 action bonus – contact – 1min\nLe bois devient magique : dégâts d8, utilise caractéristique d'incantation pour att/dégâts." },
+            { nom: "Infestation", niveau: 0, temps: "1 action", portee: "9 m", resume: "1d6 poison (Con) + déplacement aléatoire 1,5m. +1d6/5/11/17.", complet: "Infestation\nniveau 0 - invocation\nTemps: 1 action – 9m – instantané\nNuage de parasites : 1d6 poison (Con). Échec : déplacement aléatoire 1,5m (d4). +1d6 niv5/11/17." },
+            { nom: "Pierre magique", niveau: 0, temps: "1 action bonus", portee: "contact", resume: "1-3 cailloux : attaque à distance 1d6+mod, 18m. 1 min.", complet: "Pierre magique\nniveau 0 - transmutation\nTemps: 1 action bonus – contact – 1min\nJusqu'à 3 cailloux lancés (attaque à distance) : 1d6+mod, portée 18m. Perd magie après usage." },
+            { nom: "Réparation", niveau: 0, temps: "1 minute", portee: "contact", resume: "Répare fissure/déchirure ≤30cm sur un objet.", complet: "Réparation\nniveau 0 - transmutation\nTemps: 1 minute – contact – instantané\nRépare un objet (fissure, déchirure ≤30cm). Ne restaure pas la magie." },
+            { nom: "Résistance", niveau: 0, temps: "1 action", portee: "contact", resume: "Créature lance 1d4 et ajoute à un JS.", complet: "Résistance\nniveau 0 - abjuration\nTemps: 1 action – contact – concentration 1min\nLa cible peut lancer 1d4 et ajouter à un jet de sauvegarde de son choix avant ou après le jet." },
+            { nom: "Saute de vent", niveau: 0, temps: "1 action", portee: "9 m", resume: "Repousse créature 1,5m, ou objet 3m, ou effet sensoriel.", complet: "Saute de vent\nniveau 0 - transmutation\nTemps: 1 action – 9m – instantané\nCrée un des effets : créature M ou - (Force) repoussée 1,5m ; objet ≤2,5kg repoussé 3m ; effet sensoriel." },
+            { nom: "Sauvagerie primitive", niveau: 0, temps: "1 action", portee: "personnelle", resume: "Attaque corps à corps : 1d10 acide. +1d10/5/11/17.", complet: "Sauvagerie primitive\nniveau 0 - transmutation\nTemps: 1 action – personnelle – instantané\nDents/ongles : attaque au corps à corps 1d10 acide. +1d10 niv5/11/17." }
+        ];
+
+        // RENDER COMPETENCES
+        function renderCompetences(containerId, competencesArray) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            competencesArray.forEach(comp => {
+                const item = document.createElement('div');
+                item.className = 'competence-item';
+                item.innerHTML = `
+                    <div class="competence-nom">
+                        ${comp.nom}
+                        <span>▼</span>
+                    </div>
+                    <div class="description-courte">${comp.resume}</div>
+                    <div class="description-complete" style="display:none;">${comp.complet.replace(/\n/g,'<br>')}</div>
+                `;
+                const header = item.querySelector('.competence-nom');
+                const short = item.querySelector('.description-courte');
+                const full = item.querySelector('.description-complete');
+                const arrow = header.querySelector('span');
+                header.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (full.style.display === 'block') {
+                        full.style.display = 'none';
+                        short.style.display = 'block';
+                        item.classList.remove('open');
+                        arrow.textContent = '▼';
+                    } else {
+                        full.style.display = 'block';
+                        short.style.display = 'none';
+                        item.classList.add('open');
+                        arrow.textContent = '▲';
+                    }
+                });
+                container.appendChild(item);
+            });
+        }
+
+        // GRILLE SORTS + FILTRES (incluant Préparé)
+        const grilleSorts = document.getElementById('grille-sorts');
+        const grilleCantrips = document.getElementById('grille-cantrips');
+        const filtreNiveau = document.getElementById('filtreNiveauSort');
+        const filtreTemps = document.getElementById('filtreTemps');
+        const filtrePortee = document.getElementById('filtrePortee');
+        const filtrePrepare = document.getElementById('filtrePrepare');
+        const prepContainer = document.getElementById('sorts-prep-container');
+
+        function buildPrepCheckboxes() {
+            prepContainer.innerHTML = '';
+            const niveaux = [1,2,3];
+            niveaux.forEach(n => {
+                const sortsNiv = sorts.filter(s => s.niveau === n);
+                if (sortsNiv.length === 0) return;
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'niveau-check-group';
+                groupDiv.innerHTML = `<h4>Niveau ${n}</h4>`;
+                sortsNiv.forEach(s => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'sort-prep-item';
+                    itemDiv.innerHTML = `
+                        <input type="checkbox" id="prep-${s.nom.replace(/\s/g,'')}" class="prep-check">
+                        <label for="prep-${s.nom.replace(/\s/g,'')}">${s.nom}</label>
+                    `;
+                    groupDiv.appendChild(itemDiv);
+                });
+                prepContainer.appendChild(groupDiv);
+            });
+        }
+
+        function getPreparedSet() {
+            const checks = document.querySelectorAll('.prep-check');
+            const prepared = new Set();
+            checks.forEach(c => { if (c.checked) prepared.add(c.id.replace('prep-','')); });
+            return prepared;
+        }
+
+        function afficherSorts() {
+            const nivVal = filtreNiveau.value;
+            const tempsVal = filtreTemps.value;
+            const porteeVal = filtrePortee.value;
+            const prepVal = filtrePrepare.value;
+            const preparedSet = getPreparedSet();
+
+            const filtres = sorts.filter(s => {
+                if (nivVal !== 'all' && s.niveau !== parseInt(nivVal)) return false;
+                if (tempsVal !== 'all') {
+                    const t = s.temps.toLowerCase();
+                    if (tempsVal === 'action' && !t.includes('action')) return false;
+                    if (tempsVal === 'bonus' && !t.includes('bonus')) return false;
+                    if (tempsVal === 'reaction' && !t.includes('réaction') && !t.includes('reaction')) return false;
+                    if (tempsVal === 'minute' && !t.includes('minute')) return false;
+                    if (tempsVal === 'heures' && !t.includes('heure') && !t.includes('8')) return false;
+                }
+                if (porteeVal !== 'all') {
+                    const p = s.portee.toLowerCase();
+                    if (porteeVal === 'personnelle' && p !== 'personnelle') return false;
+                    if (porteeVal === 'contact' && !p.includes('contact')) return false;
+                    if (porteeVal === 'courte') {
+                        if (p.includes('personnelle') || p.includes('contact')) return false;
+                        const extract = parseInt(p);
+                        if (isNaN(extract) || extract > 18) return false;
+                    }
+                    if (porteeVal === 'longue') {
+                        const extract = parseInt(p);
+                        if (isNaN(extract) || extract <= 18) return false;
+                    }
+                }
+                if (prepVal !== 'all') {
+                    const isPrep = preparedSet.has(s.nom.replace(/\s/g,''));
+                    if (prepVal === 'prepared' && !isPrep) return false;
+                    if (prepVal === 'not-prepared' && isPrep) return false;
+                }
+                return true;
+            });
+
+            grilleSorts.innerHTML = '';
+            filtres.forEach(s => {
+                const carte = document.createElement('div');
+                carte.className = 'carte-sort';
+                carte.innerHTML = `
+                    <div class="carte-entete">
+                        ${s.nom}
+                        <span>▼</span>
+                    </div>
+                    <div class="badges-sort">
+                        <span class="badge-niveau">Niv. ${s.niveau}</span>
+                        <span class="badge-temps">${s.temps}</span>
+                        <span class="badge-portee">${s.portee}</span>
+                    </div>
+                    <div class="sort-resume">${s.resume}</div>
+                    <div class="sort-complet">${s.complet.replace(/\n/g,'<br>')}</div>
+                `;
+                const header = carte.querySelector('.carte-entete');
+                header.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    carte.classList.toggle('open');
+                    const arrow = header.querySelector('span');
+                    arrow.textContent = carte.classList.contains('open') ? '▲' : '▼';
+                });
+                grilleSorts.appendChild(carte);
+            });
+        }
+
+        function afficherCantrips() {
+            grilleCantrips.innerHTML = '';
+            cantrips.forEach(s => {
+                const carte = document.createElement('div');
+                carte.className = 'carte-cantrip';
+                carte.innerHTML = `
+                    <div class="carte-entete">
+                        ${s.nom}
+                        <span>▼</span>
+                    </div>
+                    <div class="badges-sort">
+                        <span class="badge-niveau badge-niveau-cantrip">Cantrip</span>
+                        <span class="badge-temps">${s.temps}</span>
+                        <span class="badge-portee">${s.portee}</span>
+                    </div>
+                    <div class="sort-resume">${s.resume}</div>
+                    <div class="sort-complet">${s.complet.replace(/\n/g,'<br>')}</div>
+                `;
+                const header = carte.querySelector('.carte-entete');
+                header.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    carte.classList.toggle('open');
+                    const arrow = header.querySelector('span');
+                    arrow.textContent = carte.classList.contains('open') ? '▲' : '▼';
+                });
+                grilleCantrips.appendChild(carte);
+            });
+        }
+
+        filtreNiveau.addEventListener('change', afficherSorts);
+        filtreTemps.addEventListener('change', afficherSorts);
+        filtrePortee.addEventListener('change', afficherSorts);
+        filtrePrepare.addEventListener('change', afficherSorts);
+        document.addEventListener('change', function(e) {
+            if (e.target.classList.contains('prep-check')) afficherSorts();
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCompetences('druide-liste', competencesDruide);
+            renderCompetences('moine-liste', competencesMoine);
+            buildPrepCheckboxes();
+            afficherSorts();
+            afficherCantrips();
+        });
+    })();
+</script>
+</body>
+</html>
